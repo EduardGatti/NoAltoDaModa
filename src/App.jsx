@@ -3,26 +3,31 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from "./Components/Header/Header.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import PaginaInicial from "./Pages/PaginaInicial/PaginaInicial.jsx";
-import { supabase } from './services/supabaseClient.js'; // Ajuste se o caminho for diferente
+import { supabase } from './services/supabaseClient.js'; 
 
 function App() {
   const [produtos, setProdutos] = useState([]);
 
-  // Função que busca os produtos no Supabase
   const carregarProdutos = async () => {
+    // 👇 LOGS DE TESTE AQUI 👇
+    console.log("--- INICIANDO CONEXÃO COM SUPABASE ---");
+    console.log("URL do Supabase:", import.meta.env.VITE_SUPABASE_URL);
+    console.log("Chave configurada?", import.meta.env.VITE_SUPABASE_ANON_KEY ? "Sim" : "Não");
+    // 👆 FIM DOS LOGS 👆
+
     const { data, error } = await supabase
       .from('produtos')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Erro ao buscar produtos:', error);
+      console.error('ERRO AO BUSCAR PRODUTOS:', error);
     } else {
+      console.log("SUCESSO! Produtos recebidos do banco:", data);
       setProdutos(data);
     }
   };
 
-  // Roda quando o site abre
   useEffect(() => {
     carregarProdutos();
   }, []);
@@ -34,7 +39,6 @@ function App() {
         <main className="main-content">
           <PaginaInicial produtos={produtos} />
         </main>
-        {/* Passamos a função carregarProdutos como recarregarProdutos */}
         <Footer 
           produtos={produtos} 
           setProdutos={setProdutos} 
