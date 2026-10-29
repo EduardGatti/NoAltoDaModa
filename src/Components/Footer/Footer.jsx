@@ -10,7 +10,7 @@ function Footer({ produtos, setProdutos, recarregarProdutos }) {
     const [erro, setErro] = useState(false);
     const [adminAberto, setAdminAberto] = useState(false);
 
-    const SENHA_ADMIN = 'essencia2024';
+    const SENHA_ADMIN = 'noaltodamoda';
 
     const tentarAcessar = (e) => {
         e.preventDefault();
